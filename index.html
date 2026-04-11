@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="fr" oncontextmenu="return false;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MaPetiteApp | Votre idée, votre application</title>
+    <style>
+        :root {
+            --primary: #f26522; 
+            --secondary: #1a3c70; 
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --white: #ffffff;
+            --gray-bg: #f1f5f9;
+            --gold: #d4af37;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0; padding: 0; line-height: 1.6;
+            color: var(--dark); background-color: var(--white);
+            scroll-behavior: smooth;
+            -webkit-user-select: none; /* Empêche la sélection de texte simple */
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        header {
+            background: linear-gradient(135deg, white, #eef2ff);
+            padding: 4rem 1rem; text-align: center;
+            border-bottom: 5px solid var(--gold);
+        }
+
+        .logo-img {
+            max-width: 280px; height: auto; margin-bottom: 1.5rem;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));
+        }
+
+        .section { padding: 5rem 2rem; text-align: center; }
+        .section-gray { background-color: var(--gray-bg); }
+        
+        .container { max-width: 1200px; margin: auto; }
+
+        h2 { font-size: 2.2rem; color: var(--secondary); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px; }
+        .section-title { margin-bottom: 3.5rem; }
+        .section-title hr { width: 60px; height: 4px; background: var(--primary); border: none; margin: 1rem auto; }
+
+        /* ETAPES */
+        .steps-container {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem; margin-top: 2rem;
+        }
+        .step-card { padding: 2rem; background: var(--white); border-radius: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .step-num { 
+            background: var(--primary); color: white; width: 45px; height: 45px; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            margin: 0 auto 1rem; font-weight: bold; font-size: 1.2rem;
+        }
+
+        /* EXEMPLES */
+        .example-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .example-block {
+            background: var(--white); padding: 1.5rem; border-radius: 15px;
+            border: 1px solid #e2e8f0; transition: transform 0.3s;
+        }
+        .example-block:hover { transform: translateY(-5px); border-color: var(--primary); }
+        
+        @keyframes pulse-orange {
+            0% { border-color: #f26522; box-shadow: 0 0 0 0 rgba(242, 101, 34, 0.4); }
+            70% { border-color: #ff915f; box-shadow: 0 0 15px 5px rgba(242, 101, 34, 0.1); }
+            100% { border-color: #f26522; box-shadow: 0 0 0 0 rgba(242, 101, 34, 0); }
+        }
+        .special-event { border: 2px solid var(--gold); animation: pulse-orange 2.5s infinite; background: #fffdf0; }
+
+        .img-placeholder-example {
+            background: #f1f5f9; border-radius: 10px; height: 180px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 1rem; overflow: hidden;
+        }
+        .img-placeholder-example img { width: 100%; height: 100%; object-fit: contain; }
+
+        /* TARIFS */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .card {
+            background: var(--white); padding: 2.5rem; border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            transition: 0.3s; border: 1px solid #e2e8f0;
+        }
+        .card:hover { border-color: var(--primary); }
+        .price { font-size: 2.5rem; font-weight: 800; color: var(--primary); margin: 1rem 0 0.2rem 0; }
+        .price-note { font-size: 0.8rem; color: #64748b; margin-bottom: 1.5rem; font-style: italic; }
+
+        /* TEMOIGNAGES */
+        .testimonials { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+        .testi-card { 
+            background: var(--white); padding: 2rem; border-radius: 15px; 
+            font-style: italic; position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            margin-bottom: 1.5rem;
+        }
+        .testi-card::before { content: '"'; font-size: 4rem; color: var(--primary); position: absolute; top: -10px; left: 10px; opacity: 0.2; }
+
+        /* FAQ */
+        .faq-container { max-width: 800px; margin: auto; text-align: left; }
+        .faq-item { 
+            background: var(--white); 
+            margin-bottom: 2rem;
+            border-radius: 10px; padding: 1.5rem; border-left: 5px solid var(--secondary);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .faq-question { font-weight: bold; color: var(--secondary); font-size: 1.1rem; }
+        .faq-answer { margin-top: 0.8rem; color: #475569; }
+
+        /* FORMULAIRE GATEKEEPER INTEGRÉ */
+        #contact-form-section {
+            background: var(--white); padding: 3rem; border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1); border: 2px solid #e2e8f0;
+            max-width: 800px; margin: 0 auto; text-align: left;
+        }
+        .form-group { margin-bottom: 1.5rem; }
+        label { font-weight: bold; color: var(--secondary); margin-bottom: 0.5rem; display: block; }
+        input, select, textarea { width: 100%; padding: 0.9rem; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 1rem; font-family: inherit; box-sizing: border-box; }
+        
+        .message-box { padding: 20px; border-radius: 15px; line-height: 1.6; display: none; margin-top: 20px; }
+        #result-fail { background: #fff1f1; border: 1px solid #ffcfcf; color: #b91c1c; }
+        #result-success { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; }
+
+        .btn-submit { background: var(--primary); color: white; border: none; padding: 1.2rem; border-radius: 50px; font-size: 1.2rem; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; margin-top: 1rem; }
+        .btn-submit:hover { background: var(--secondary); }
+
+        .btn { display: inline-block; background: var(--secondary); color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 50px; font-weight: bold; transition: 0.3s; }
+        .btn:hover { background: var(--primary); }
+        ul { list-style: none; padding: 0; text-align: left; }
+        ul li::before { content: "✓ "; color: var(--primary); font-weight: bold; }
+
+        /* FOOTER PRO */
+        .footer-pro { text-align: center; padding: 4rem; background: var(--dark); color: white; }
+        .footer-logo { font-size: 1.5rem; font-weight: bold; display: block; margin-bottom: 1rem; color: var(--primary); }
+        .footer-links { margin-bottom: 1.5rem; font-size: 0.95rem; color: #cbd5e1; line-height: 1.8; }
+        .footer-links a { color: var(--gold); text-decoration: none; font-weight: bold; }
+        .footer-copyright { font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #334155; padding-top: 1.5rem; }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="https://i.ibb.co/pB25DDDV/1775655422992-png.png" alt="MaPetiteApp Logo" class="logo-img">
+    <p class="tagline">Le sur-mesure numérique enfin accessible aux particuliers et sociétés.</p>
+</header>
+
+<div class="section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Comment ça marche ?</h2>
+            <hr>
+            <p>Un parcours simple pour donner vie à votre projet.</p>
+        </div>
+        <div class="steps-container">
+            <div class="step-card">
+                <div class="step-num">1</div>
+                <h3>L'Idée</h3>
+                <p>On discute de vos besoins et de vos envies lors d'un premier échange gratuit.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">2</div>
+                <h3>La Création</h3>
+                <p>Je développe votre application sur-mesure de A à Z en quelques jours.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">3</div>
+                <h3>Le Décollage</h3>
+                <p>Vous recevez votre lien d'installation et votre application est prête !</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section section-gray">
+    <div class="container">
+        <div class="section-title">
+            <h2>Imaginez votre application</h2>
+            <hr>
+            <p>Quelques exemples de ce que nous pouvons créer ensemble.</p>
+        </div>
+        <div class="example-grid">
+            <div class="example-block">
+                <div class="img-placeholder-example"><img src="https://i.ibb.co/bj2BhBKc/1775651693297.png" alt="Collection"></div>
+                <h4>Inventaire Passion</h4>
+                <p>Gérez vos bouteilles, vos livres ou vos pièces de collection avec photos.</p>
+            </div>
+            <div class="example-block">
+                <div class="img-placeholder-example"><img src="https://i.ibb.co/Qjn3ZvjZ/1775651712996.png" alt="Cocon Familial"></div>
+                <h4>Cocon Familial</h4>
+                <p>Échangez vos souvenirs et photos en toute sécurité dans un espace privé.</p>
+            </div>
+            <div class="example-block">
+                <div class="img-placeholder-example"><img src="https://i.ibb.co/twspQ7Ln/1775651700281.png" alt="Coaching"></div>
+                <h4>Espace Coaching</h4>
+                <p>Suivez vos élèves, envoyez des programmes et notez les performances.</p>
+            </div>
+            <div class="example-block">
+                <div class="img-placeholder-example"><img src="https://i.ibb.co/Xfz5zmHD/1775651707278.png" alt="Gestion Maison"></div>
+                <h4>Gestion Maison</h4>
+                <p>N'oubliez plus jamais l'entretien de la chaudière ou les factures du loyer.</p>
+            </div>
+            <div class="example-block special-event">
+                <div class="img-placeholder-example"><img src="https://i.ibb.co/PVQSzQk/Screenshot-20260408-142624-Google.jpg" alt="Mariage"></div>
+                <h4>Spécial Mariage</h4>
+                <p>Partagez les infos, les photos et le plan de table avec tous vos invités.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Nos Tarifs Clairs</h2>
+            <hr>
+            <p>Pas d'abonnement, pas de frais cachés. Vous payez une fois, c'est à vous.</p>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <h3>L'Essentielle</h3>
+                <div class="price">450 €</div>
+                <div class="price-note">(Données sécurisées et design épuré)</div>
+                <ul><li>Architecture complète incluant vos 3 fonctionnalités clés</li><li>Installation rapide</li><li>Design Moderne</li></ul>
+                <a href="#contact-form-section" class="btn">Démarrer</a>
+            </div>
+            <div class="card" style="transform: scale(1.05); border-top: 5px solid var(--gold);">
+                <h3>La Personnalisée</h3>
+                <div class="price">750 €</div>
+                <div class="price-note">(Idéal pour un usage intensif et interactif)</div>
+                <ul><li>Solution avancée intégrant tous vos modules de gestion</li><li>Base de données complète</li><li>Compte sécurisé</li></ul>
+                <a href="#contact-form-section" class="btn">La plus populaire</a>
+            </div>
+            <div class="card">
+                <h3>La Premium</h3>
+                <div class="price">Sur Devis</div>
+                <div class="price-note">(Sur-mesure total sans limites)</div>
+                <ul><li>Architecture Avancée & Automatisation</li><li>Paiement en ligne / Cloud</li><li>Automatisations</li></ul>
+                <a href="#contact-form-section" class="btn">Contacter</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section section-gray">
+    <div class="container">
+        <div class="section-title">
+            <h2>Témoignages</h2>
+            <hr>
+        </div>
+        <div class="testimonials">
+            <div class="testi-card">"Ma cave à vin est enfin rangée virtuellement, c'est un plaisir à utiliser au quotidien." - Marc</div>
+            <div class="testi-card">"Super réactif, l'app de mon mariage a fait sensation auprès de la famille." - Elena</div>
+            <div class="testi-card">"Un gain de temps énorme pour mon activité professionnelle. Je recommande !" - Pierre</div>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Questions Fréquentes</h2>
+            <hr>
+        </div>
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">● iPhone ou Android ?</div>
+                <div class="faq-answer">L'application fonctionne parfaitement sur les deux. Elle s'installe via un lien sécurisé, sans passer par les magasins d'applications.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">● Et après le paiement ?</div>
+                <div class="faq-answer">L'application est à vous. Il n'y a aucun abonnement mensuel à payer à MaPetiteApp.</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section section-gray" id="contact-form-section">
+    <div class="container">
+        <div id="contact-form-wrapper">
+            <h2 style="text-align:center;">Parlons de votre projet</h2>
+            <p style="text-align:center; margin-bottom: 2rem;">Vérifions si mon approche sur-mesure correspond à votre vision.</p>
+            
+            <div id="gatekeeper-questions">
+                <div class="form-group">
+                    <label>Quel est votre budget alloué pour ce sur-mesure ?</label>
+                    <select id="filter-budget">
+                        <option value="mid">Entre 450 € et 1500 €</option>
+                        <option value="low">Moins de 450 €</option>
+                        <option value="high">Plus de 1500 € (Premium)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Souhaitez-vous un service clé en main ?</label>
+                    <select id="filter-autonomy">
+                        <option value="no">Oui, je souhaite que vous gériez tout</option>
+                        <option value="yes">Non, je préfère garder la main sur la technique</option>
+                    </select>
+                </div>
+                <button type="button" class="btn-submit" onclick="runGatekeeper()">Analyser mon éligibilité</button>
+            </div>
+
+            <div id="result-fail" class="message-box">
+                <p>Merci beaucoup pour l'intérêt que vous portez à mon travail.</p>
+                <p>Après analyse, mon service de <strong>'Haute Couture Numérique'</strong> ne semble pas être la solution idéale pour votre budget actuel (seuil à 450 €). Je ne voudrais pas vous faire investir inutilement. Bonne continuation dans votre projet !</p>
+                <button class="btn-submit" onclick="location.reload()" style="background: #888;">Retour</button>
+            </div>
+
+            <div id="result-success" class="message-box">
+                <p><strong>Votre projet a retenu toute mon attention.</strong> Votre demande semble parfaitement s'inscrire dans la philosophie de mon atelier numérique.</p>
+                <p>Laissez-moi vos coordonnées pour que nous puissions en discuter de vive voix.</p>
+                
+                <form action="https://formspree.io/f/mapetiteapp@gmail.com" method="POST" style="margin-top:20px;">
+                    <div class="form-group"><label>Votre Nom</label><input type="text" name="nom" required></div>
+                    <div class="form-group"><label>Téléphone (International / Belgique)</label><input type="tel" name="tel" placeholder="+32 4.. .. .. .." required></div>
+                    <div class="form-group">
+                        <label>Type de Projet</label>
+                        <select name="service" required>
+                            <option value="mariage">Mariage</option>
+                            <option value="famille">Cocon Familial</option>
+                            <option value="collection">Collection</option>
+                            <option value="pro">Professionnel</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Décrivez votre vision</label><textarea name="message" rows="4" placeholder="Dites-m'en plus..."></textarea></div>
+                    <button type="submit" class="btn-submit">Demander un échange privé</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer-pro">
+    <span class="footer-logo">🚀 Ma Petite App</span>
+    <div class="footer-links">
+        Besoin d'aide ou d'une application sur mesure ?<br>
+        Découvrez notre catalogue sur <a href="http://www.mapetiteapp.com" target="_blank">mapetiteapp.be.com</a><br>
+        Contactez-nous : <a href="mailto:mapetiteapp@gmail.com">mapetiteapp@gmail.com</a>
+    </div>
+    <div class="footer-copyright">
+        &copy; 2026 Ma Petite App — Solutions Digitales Familiales & Pro.<br>
+        Tous droits réservés. Créations numériques belges.
+    </div>
+</footer>
+
+<script>
+    // SÉCURITÉ CLAVIER
+    document.onkeydown = function(e) {
+        if(e.keyCode == 123) return false; // Bloque F12
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false; // Bloque Ctrl+Maj+I
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false; // Bloque Ctrl+Maj+J
+        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false; // Bloque Ctrl+U (Source)
+    };
+
+    // LOGIQUE DU GATEKEEPER
+    function runGatekeeper() {
+        const budget = document.getElementById('filter-budget').value;
+        const autonomy = document.getElementById('filter-autonomy').value;
+        const questionArea = document.getElementById('gatekeeper-questions');
+        const failBox = document.getElementById('result-fail');
+        const successBox = document.getElementById('result-success');
+
+        questionArea.style.display = 'none';
+
+        if (budget === 'low' || autonomy === 'yes') {
+            failBox.style.display = 'block';
+        } else {
+            successBox.style.display = 'block';
+        }
+    }
+</script>
+
+</body>
+</html>
